@@ -1,0 +1,74 @@
+# Automatically migrated from legacy .beetsconfig.
+
+library: /media/s3/music/.beets/musiclibrary.db
+directory: /media/s3/music/library
+threaded: yes
+color: yes
+art_filename: cover
+ignore: .AppleDouble ._* *~ .DS_Store
+# https://beets.readthedocs.org/en/1.0b12/plugins/lastgenre.html
+# https://beets.readthedocs.org/en/1.0b12/plugins/chroma.html
+# http://www.webupd8.org/2012/01/beets-command-line-tool-to-fix-music.html
+plugins: embedart lastgenre convert fetchart lyrics scrub info chroma inline mbsync the mbcollection bpd mpdupdate echonest_tempo
+
+import:
+    copy: no
+    write: yes
+    resume: ask
+    move: yes
+    quiet_fallback: skip
+    timid: no
+    incremental: yes
+    log: /media/s3/music/.beets/beetslog.txt
+    detail: yes
+
+the:
+    # handle "The" (on by default)
+    the: yes
+    # handle "A/An" (on by default)
+    a: no
+
+# The aunique{} function ensures that identically-named albums are placed in different directories;
+paths:
+    default: artists/%the{$albumartist}/$album%aunique{} ($year)/%if{$multidisc,Disc $disc/}$track $artist - $title
+    albumtype:soundtrack: soundtracks/$album%aunique{} ($year)/$disc-$track $artist - $title
+    comp: compilations/$genre/$album%aunique{} ($year)/$disc-$track $artist - $title
+    singeton: singeltons/$artist/$artist - $title
+
+# http://beets.readthedocs.org/en/v1.1.0-beta.2/plugins/convert.html
+
+pathfields:
+    multidisc: 1 if disctotal > 1 else 0
+
+convert:
+    ffmpeg: /usr/bin/ffmpeg
+    embed: true
+    opts: -ab 320k
+    dest: /media/s3/music/mp3
+    threads: 16
+
+acoustid:
+    apikey: eZTfFIKL
+
+echonest_tempo:
+    apikey: 5ONVCMMW1KJ2YWPAY 
+
+musicbrainz:
+    user: misterswag
+    pass: 0mDjeu9NDeP8
+    host: 192.168.1.4:5000
+    ratelimit: 100
+
+lyrics:
+    google_API_key: AIzaSyB9TY_q7GQwkfYCsuKCcVmhZP11MemarTE
+
+#mpdupdate:
+    #host: localhost
+    #port: 6600
+    #password: seekrit
+
+#bpd:
+    #host: 127.0.0.1
+    #port: 6600
+    #password: googleisgod88
+    
