@@ -1,0 +1,1 @@
+fastcgi_cache_path /var/cache/nginx2 levels=1:2 keys_zone=microcache:5m max_size=1000m;
